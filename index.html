@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>AZBEL | Evaluación Cuántica Avanzada</title>
+
+  <!-- Google Fonts: Syne (display) + DM Sans (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800;900&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    /* ═══════════════════════════════════════════
+       CSS VARIABLES & TOKENS
+    ═══════════════════════════════════════════ */
+    :root {
+      --orange:      #FF7F00;
+      --orange-lt:   #FF9A30;
+      --orange-dim:  rgba(255, 127, 0, 0.18);
+      --green:       #A0C600;
+      --green-lt:    #C4E600;
+      --green-dim:   rgba(160, 198, 0, 0.15);
+      --bg:          #050805;
+      --bg2:         #080d08;
+      --card:        rgba(12, 18, 10, 0.82);
+      --border:      rgba(160, 198, 0, 0.12);
+      --border-or:   rgba(255, 127, 0, 0.2);
+      --text:        #f0f4e8;
+      --muted:       rgba(200, 210, 185, 0.45);
+      --radius-xl:   24px;
+      --radius-2xl:  32px;
+    }
+
+    /* BASE */
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', system-ui, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+    h1, h2, h3, h4, .syne { font-family: 'Syne', sans-serif; }
+
+    /* Ambient BG mesh */
+    .bg-mesh {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse 60% 50% at 20% 10%,  rgba(160,198,0,0.07)  0%, transparent 60%),
+        radial-gradient(ellipse 50% 60% at 80% 85%,  rgba(255,127,0,0.08)  0%, transparent 60%),
+        radial-gradient(ellipse 40% 40% at 70% 20%,  rgba(160,198,0,0.04)  0%, transparent 50%),
+        radial-gradient(ellipse 60% 40% at 10% 90%,  rgba(255,127,0,0.05)  0%, transparent 60%),
+        var(--bg);
+    }
+    .bg-mesh::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 200px;
+    }
+
+    /* Glass cards */
+    .glass {
+      background: var(--card);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid var(--border);
+      box-shadow: 0 1px 0 rgba(255,255,255,0.04) inset, 0 24px 60px rgba(0,0,0,0.35), 0 0 0 0.5px rgba(0,0,0,0.5);
+    }
+    .glass-or {
+      background: rgba(14, 10, 4, 0.85);
+      backdrop-filter: blur(18px);
+      border: 1px solid var(--border-or);
+      box-shadow: 0 1px 0 rgba(255,200,80,0.06) inset, 0 24px 60px rgba(0,0,0,0.4), 0 0 30px rgba(255,127,0,0.06);
+    }
+
+    /* Gradient text */
+    .gold-text {
+      background: linear-gradient(135deg, #FF7F00 0%, #FFB830 45%, #A0C600 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .green-text {
+      background: linear-gradient(135deg, #A0C600, #C4E600);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Botones */
+    .gold-btn {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, #FF7F00 0%, #FFB020 60%, #A0C600 100%);
+      box-shadow: 0 0 0 1px rgba(255,200,80,0.3), 0 8px 32px rgba(255,127,0,0.35), 0 2px 0 rgba(255,255,255,0.12) inset;
+      transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.25s ease;
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+    }
+    .gold-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 60%);
+    }
+    .gold-btn:hover {
+      transform: translateY(-3px) scale(1.015);
+      box-shadow: 0 0 0 1px rgba(255,200,80,0.5), 0 16px 48px rgba(255,127,0,0.5), 0 2px 0 rgba(255,255,255,0.15) inset;
+    }
+    .gold-btn::after {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 60%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.18), transparent);
+      transform: skewX(-20deg);
+      transition: left 0.6s ease;
+    }
+    .gold-btn:hover::after { left: 160%; }
+
+    .wa-btn {
+      position: relative;
+      overflow: hidden;
+      background: linear-gradient(135deg, #1a7a38, #25a84d);
+      box-shadow: 0 8px 32px rgba(37,168,77,0.3), 0 0 0 1px rgba(37,168,77,0.3);
+      transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.25s;
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+    }
+    .wa-btn:hover {
+      transform: translateY(-3px) scale(1.015);
+      box-shadow: 0 16px 48px rgba(37,168,77,0.45), 0 0 0 1px rgba(37,168,77,0.5);
+    }
+    .wa-btn::after {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 60%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+      transform: skewX(-20deg);
+      transition: left 0.6s ease;
+    }
+    .wa-btn:hover::after { left: 160%; }
+
+    /* Form inputs */
+    input, select {
+      background: rgba(8, 14, 8, 0.9);
+      border: 1px solid rgba(160, 198, 0, 0.15);
+      color: var(--text);
+      transition: border-color 0.25s, box-shadow 0.25s;
+    }
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--green);
+      background: rgba(12, 20, 10, 0.95);
+      box-shadow: 0 0 0 3px rgba(160,198,0,0.12), 0 0 20px rgba(160,198,0,0.08);
+    }
+    input::placeholder { color: rgba(180,200,160,0.3); }
+
+    /* Hour badges */
+    .hour-badge {
+      background: rgba(10,16,8,0.9);
+      border: 1px solid rgba(160,198,0,0.18);
+      color: var(--muted);
+      transition: all 0.22s cubic-bezier(0.34,1.56,0.64,1);
+      cursor: pointer;
+    }
+    .hour-badge:hover {
+      border-color: rgba(160,198,0,0.5);
+      color: var(--text);
+      transform: translateY(-2px);
+    }
+    .hour-badge.active {
+      background: linear-gradient(135deg, rgba(160,198,0,0.2), rgba(160,198,0,0.08));
+      border-color: var(--green);
+      color: var(--green);
+      font-weight: 700;
+      box-shadow: 0 0 20px rgba(160,198,0,0.15);
+    }
+
+    /* Toast */
+    .toast-message {
+      position: fixed;
+      bottom: 28px;
+      left: 20px;
+      right: 20px;
+      max-width: 480px;
+      margin: 0 auto;
+      background: rgba(10,16,8,0.96);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(160,198,0,0.3);
+      color: #c4e600;
+      text-align: center;
+      padding: 14px 20px;
+      border-radius: 60px;
+      z-index: 2000;
+    }
+
+    /* Navbar */
+    .navbar {
+      background: rgba(5,8,5,0.75);
+      backdrop-filter: blur(24px);
+      border-bottom: 1px solid rgba(160,198,0,0.08);
+      transition: background 0.3s, box-shadow 0.3s;
+    }
+    .navbar.scrolled {
+      background: rgba(5,8,5,0.95);
+      box-shadow: 0 1px 0 rgba(160,198,0,0.12), 0 8px 32px rgba(0,0,0,0.4);
+    }
+    .logo-mark {
+      font-family: 'Syne', sans-serif;
+      font-weight: 900;
+      font-size: clamp(22px, 4vw, 28px);
+      letter-spacing: -0.04em;
+    }
+
+    /* Badge pill */
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 16px;
+      border-radius: 100px;
+      border: 1px solid rgba(255,127,0,0.25);
+      background: rgba(255,127,0,0.07);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #FFB020;
+    }
+    .badge-pill .dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--orange);
+      animation: pulseRing 2s ease-in-out infinite;
+    }
+    @keyframes pulseRing {
+      0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 rgba(255,127,0,0.4); }
+      50% { opacity: 0.8; transform: scale(0.85); box-shadow: 0 0 0 6px rgba(255,127,0,0); }
+    }
+
+    /* Floating animation */
+    .floating {
+      animation: floatY 6s ease-in-out infinite;
+    }
+    @keyframes floatY {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-14px); }
+    }
+    .floating-slow {
+      animation: floatY 8s ease-in-out infinite 1s;
+    }
+
+    /* Glow orbs */
+    .glow-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(70px);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .glow-green { background: rgba(160,198,0,0.18); }
+    .glow-orange { background: rgba(255,127,0,0.15); }
+
+    /* SCROLL REVEAL */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1), transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+    .reveal-delay-5 { transition-delay: 0.5s; }
+
+    /* Symptom cards hover */
+    .symptom-card {
+      transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), border-color 0.3s, box-shadow 0.3s;
+    }
+    .symptom-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      border-color: rgba(160,198,0,0.4) !important;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 30px rgba(160,198,0,0.1);
+    }
+
+    /* Avatar stack */
+    .avatar-stack img {
+      transition: transform 0.3s ease;
+    }
+    .avatar-stack:hover img { transform: translateX(-4px); }
+
+    /* Section label */
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 12px;
+    }
+    .section-label::before {
+      content: '';
+      width: 24px; height: 1px;
+      background: var(--green);
+    }
+
+    /* Dividers */
+    .fancy-divider {
+      border: none;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(160,198,0,0.2), transparent);
+    }
+    .section-sep {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin: 0 auto;
+      max-width: 240px;
+    }
+    .section-sep span { font-size: 9px; font-weight: 700; letter-spacing: 0.25em; color: var(--muted); }
+    .section-sep::before, .section-sep::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(160,198,0,0.2));
+    }
+
+    /* Tech device section */
+    .device-glow {
+      position: absolute;
+      inset: -30%;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(160,198,0,0.2) 0%, transparent 65%);
+      filter: blur(40px);
+      animation: glowPulse 4s ease-in-out infinite;
+    }
+    @keyframes glowPulse {
+      0%, 100% { opacity: 0.5; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.1); }
+    }
+    .orbit {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid;
+      animation: orbit 8s linear infinite;
+    }
+    .orbit-2 { animation-direction: reverse; animation-duration: 12s; }
+    @keyframes orbit { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+    .stat-item {
+      background: rgba(12,18,10,0.6);
+      border: 1px solid rgba(160,198,0,0.1);
+      transition: transform 0.3s ease, border-color 0.3s;
+      padding: 16px 20px;
+      border-radius: 16px;
+      text-align: center;
+    }
+    .stat-item:hover {
+      transform: translateY(-4px);
+      border-color: rgba(160,198,0,0.3);
+    }
+    .stat-num {
+      font-family: 'Syne', sans-serif;
+      font-weight: 900;
+      font-size: 28px;
+      background: linear-gradient(135deg, var(--green), var(--orange));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .stat-label { font-size: 11px; color: var(--muted); margin-top: 4px; }
+
+    /* CTA cards */
+    .cta-card {
+      transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.3s;
+    }
+    .cta-card:hover { transform: translateY(-6px); }
+
+    /* Mobile sticky */
+    .mobile-sticky {
+      display: none;
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 12px 16px;
+      padding-bottom: calc(12px + env(safe-area-inset-bottom));
+      background: rgba(5,8,5,0.95);
+      backdrop-filter: blur(20px);
+      border-top: 1px solid rgba(160,198,0,0.1);
+      gap: 10px;
+    }
+    @media (max-width: 640px) {
+      .mobile-sticky { display: flex; }
+      body { padding-bottom: 90px; }
+    }
+
+    /* Particles */
+    .particles {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 2px; height: 2px;
+      border-radius: 50%;
+      background: var(--green);
+      animation: particleFloat linear infinite;
+      opacity: 0;
+    }
+    @keyframes particleFloat {
+      0%   { transform: translateY(0) translateX(0); opacity: 0; }
+      10%  { opacity: 0.6; }
+      90%  { opacity: 0.4; }
+      100% { transform: translateY(-120px) translateX(30px); opacity: 0; }
+    }
+
+    /* Video section */
+    .video-thumb-wrap {
+      position: relative;
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .video-play-btn {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(5,8,5,0.4);
+      transition: background 0.3s;
+    }
+    .play-ring {
+      width: 64px; height: 64px;
+      border-radius: 50%;
+      background: rgba(160,198,0,0.15);
+      border: 2px solid rgba(160,198,0,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.3s, background 0.3s;
+    }
+    .video-thumb-wrap:hover .play-ring {
+      transform: scale(1.12);
+      background: rgba(160,198,0,0.25);
+    }
+
+    .animated-border { position: relative; }
+    .animated-border::before {
+      content: '';
+      position: absolute;
+      inset: -1px;
+      border-radius: inherit;
+      padding: 1px;
+      background: linear-gradient(135deg, rgba(160,198,0,0.4), rgba(255,127,0,0.2), rgba(160,198,0,0.1));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+
+    /* ═══════════════════════════════════════════
+       ESTILOS PARA SILUETA + BADGES PEQUEÑOS + ESCÁNER
+       (TAMAÑO REDUCIDO Y POSICIÓN DENTRO)
+    ═══════════════════════════════════════════ */
+    .silhouette-container {
+      position: relative;
+      border-radius: 28px;
+      overflow: hidden;
+      background: radial-gradient(ellipse at center, rgba(0,30,20,0.3) 0%, transparent 70%);
+    }
+    .silhouette-img {
+      display: block;
+      width: 100%;
+      height: auto;
+      filter: drop-shadow(0 0 12px rgba(160,198,0,0.2));
+    }
+    /* Rejilla holográfica */
+    .grid-overlay {
+      position: absolute;
+      inset: 0;
+      background-image: 
+        linear-gradient(rgba(160,198,0,0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(160,198,0,0.08) 1px, transparent 1px);
+      background-size: 24px 24px;
+      pointer-events: none;
+      z-index: 2;
+    }
+    /* Badges flotantes - TAMAÑO REDUCIDO */
+    .float-badge {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      background: rgba(8,14,6,0.85);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(160,198,0,0.3);
+      border-radius: 60px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3), 0 0 15px rgba(160,198,0,0.1);
+      z-index: 20;
+      white-space: nowrap;
+      animation: floatY 6s ease-in-out infinite;
+    }
+    .float-badge .label {
+      font-size: 8px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .float-badge .value {
+      font-size: 13px;
+      font-weight: 800;
+      font-family: 'Syne', sans-serif;
+      background: linear-gradient(135deg, var(--green), var(--orange));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    /* Posiciones ajustadas DENTRO de la imagen */
+    .badge-energy {
+      top: 4%;
+      left: 3%;
+    }
+    .badge-rest {
+      top: 14%;
+      right: 3%;
+    }
+    .badge-stress {
+      bottom: 10%;
+      left: 3%;
+    }
+
+    /* Escáner */
+    .scanner-wrapper {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 25;
+      overflow: hidden;
+    }
+    .scan-line {
+      position: absolute;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--green), var(--orange), var(--green), transparent);
+      box-shadow: 0 0 12px rgba(160,198,0,0.8);
+      animation: scanMove 3.5s ease-in-out infinite;
+    }
+    @keyframes scanMove {
+      0% { top: -2px; opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { top: 100%; opacity: 0; }
+    }
+    .scanner-badge {
+      position: absolute;
+      left: 20%;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--green);
+      border-radius: 60px;
+      padding: 4px 14px;
+      font-size: 11px;
+      font-weight: 700;
+      font-family: 'Syne', sans-serif;
+      letter-spacing: 0.05em;
+      color: var(--green);
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 0 20px rgba(160,198,0,0.3);
+      animation: badgeSlide 3.5s ease-in-out infinite;
+    }
+    @keyframes badgeSlide {
+      0% { top: 0%; opacity: 0; transform: translateX(-20px); }
+      10% { opacity: 1; transform: translateX(0); }
+      90% { opacity: 1; transform: translateX(0); }
+      100% { top: 95%; opacity: 0; transform: translateX(20px); }
+    }
+
+    /* Ajustes desktop */
+    .hero-visual-col {
+      width: 420px;
+      flex-shrink: 0;
+    }
+    @media (max-width: 1023px) {
+      .float-badge, .scanner-wrapper { display: none; }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="bg-mesh" aria-hidden="true"></div>
+
+<!-- NAVBAR (idéntico) -->
+<nav id="navbar" class="navbar w-full px-6 md:px-14 py-4 flex justify-between items-center sticky top-0 z-50">
+  <div class="flex items-center gap-3">
+    <div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#FF7F00,#A0C600);display:flex;align-items:center;justify-content:center;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#050805" stroke-width="2.5"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+    </div>
+    <h1 class="logo-mark gold-text">AZBEL</h1>
+  </div>
+  <div class="hidden md:flex items-center gap-3 text-sm font-medium" style="color:rgba(160,198,0,0.7)">
+    <span class="w-2 h-2 rounded-full animate-pulse" style="background:var(--green)"></span>
+    Últimos cupos disponibles
+  </div>
+  <button onclick="scrollToForm()" class="gold-btn hidden md:flex items-center gap-2 px-5 py-2.5 rounded-full text-black text-sm">
+    <i data-lucide="calendar" class="w-4 h-4"></i> Reservar ahora
+  </button>
+</nav>
+
+<!-- HERO CON NUEVA IMAGEN DE SILUETA (badges reducidos y dentro) -->
+<section class="relative max-w-7xl mx-auto px-6 md:px-12 pt-20 pb-24 md:pt-28 md:pb-32 overflow-hidden">
+  <div class="glow-orb glow-green" style="width:600px;height:600px;top:-20%;left:-15%;opacity:0.6;"></div>
+  <div class="glow-orb glow-orange" style="width:400px;height:400px;top:10%;right:-10%;opacity:0.5;"></div>
+  <div class="particles" id="heroParticles" aria-hidden="true"></div>
+
+  <div class="flex items-center gap-16 relative z-10" style="flex-wrap:nowrap;">
+    <!-- COLUMNA IZQUIERDA (texto, beneficios, CTA) - SIN CAMBIOS -->
+    <div class="hero-text-col flex-1 min-w-0">
+      <div class="badge-pill mb-5 reveal" style="display:inline-flex;">
+        <span class="dot"></span> 🔥 ÚLTIMOS CUPOS HOY
+      </div>
+      <h1 class="font-black leading-[1.0] tracking-tight mb-5 reveal reveal-delay-1" style="font-family:'Syne',sans-serif;font-size:clamp(38px,7vw,72px);">
+        Descubre lo que<br>tu cuerpo
+        <span class="gold-text" style="display:block;">ha estado tratando<br>de decirte</span>
+      </h1>
+      <p class="leading-relaxed mb-7 reveal reveal-delay-2" style="color:var(--muted);font-size:clamp(15px,2vw,18px);max-width:480px;">
+        Evaluación integral con tecnología cuántica avanzada para resultados precisos y personalizados.
+      </p>
+      <div class="benefits-grid-2 grid grid-cols-2 gap-3 mb-8 reveal reveal-delay-3" style="max-width:480px;">
+        <div class="glass rounded-2xl p-3 flex items-center gap-2.5"><div class="w-9 h-9 rounded-xl flex items-center justify-center" style="background:rgba(160,198,0,0.1);"><i data-lucide="shield-check" style="color:var(--green)" class="w-4 h-4"></i></div><p class="text-sm font-semibold">Tecnología no invasiva</p></div>
+        <div class="glass rounded-2xl p-3 flex items-center gap-2.5"><div class="w-9 h-9 rounded-xl flex items-center justify-center" style="background:rgba(160,198,0,0.1);"><i data-lucide="activity" style="color:var(--green)" class="w-4 h-4"></i></div><p class="text-sm font-semibold">Resultados precisos</p></div>
+        <div class="glass rounded-2xl p-3 flex items-center gap-2.5"><div class="w-9 h-9 rounded-xl flex items-center justify-center" style="background:rgba(255,127,0,0.1);"><i data-lucide="cpu" style="color:var(--orange)" class="w-4 h-4"></i></div><p class="text-sm font-semibold">Análisis completo</p></div>
+        <div class="glass rounded-2xl p-3 flex items-center gap-2.5"><div class="w-9 h-9 rounded-xl flex items-center justify-center" style="background:rgba(255,127,0,0.1);"><i data-lucide="sparkles" style="color:var(--orange)" class="w-4 h-4"></i></div><p class="text-sm font-semibold">100% confiable</p></div>
+      </div>
+      <div class="reveal reveal-delay-4">
+        <button onclick="scrollToForm()" class="gold-btn px-8 py-4 rounded-2xl text-black text-base flex items-center justify-center gap-2" style="width:fit-content;">
+          <i data-lucide="calendar-check" class="w-5 h-5"></i> AGENDAR MI EVALUACIÓN
+        </button>
+      </div>
+    </div>
+
+    <!-- COLUMNA DERECHA: SILUETA + BADGES PEQUEÑOS Y DENTRO -->
+    <div class="hero-visual-col">
+      <div class="relative silhouette-container glass scan-wrap animated-border" style="padding: 6px;">
+        <!-- Imagen de silueta anatómica (URL del usuario) -->
+        <img src="https://i.ibb.co/bqjcC4V/Umarul-removebg-preview.png"
+             alt="silueta anatómica"
+             class="silhouette-img w-full rounded-[22px] object-contain"
+             style="height:380px; object-fit: contain; background: #050805;">
+        
+        <!-- Rejilla holográfica -->
+        <div class="grid-overlay"></div>
+        
+        <!-- Badges flotantes (tamaño reducido y posición interna) -->
+        <div class="float-badge badge-energy floating">
+          <div class="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></div>
+          <div><span class="label">ENERGÍA VITAL</span><div class="value">72%</div></div>
+        </div>
+        <div class="float-badge badge-rest floating-slow">
+          <i data-lucide="moon" style="width:12px;height:12px;color:#7dd3fc;"></i>
+          <div><span class="label">DESCANSO</span><div class="value" style="color:#7dd3fc; background:none; -webkit-text-fill-color:#7dd3fc;">66%</div></div>
+        </div>
+        <div class="float-badge badge-stress floating">
+          <i data-lucide="zap" style="width:12px;height:12px;color:var(--orange);"></i>
+          <div><span class="label">ESTRÉS</span><div class="value" style="color:var(--orange); background:none; -webkit-text-fill-color:var(--orange);">48%</div></div>
+        </div>
+
+        <!-- Escáner animado (línea + tarjeta) -->
+        <div class="scanner-wrapper">
+          <div class="scan-line"></div>
+          <div class="scanner-badge">
+            <i data-lucide="microchip" style="width:10px;height:10px;"></i>
+            Quantum Analyzer · escaneo activo
+          </div>
+        </div>
+
+        <!-- Esquinas decorativas -->
+        <div style="position:absolute;top:12px;left:12px;width:20px;height:20px;border-top:2px solid var(--green);border-left:2px solid var(--green);border-radius:4px 0 0 0;z-index:26;"></div>
+        <div style="position:absolute;top:12px;right:12px;width:20px;height:20px;border-top:2px solid var(--green);border-right:2px solid var(--green);border-radius:0 4px 0 0;z-index:26;"></div>
+        <div style="position:absolute;bottom:12px;left:12px;width:20px;height:20px;border-bottom:2px solid var(--green);border-left:2px solid var(--green);border-radius:0 0 0 4px;z-index:26;"></div>
+        <div style="position:absolute;bottom:12px;right:12px;width:20px;height:20px;border-bottom:2px solid var(--green);border-right:2px solid var(--green);border-radius:0 0 4px 0;z-index:26;"></div>
+      </div>
+
+      <!-- Tarjeta inferior del dispositivo -->
+      <div class="glass rounded-xl p-3 mt-4 flex items-center justify-between" style="border-color:rgba(160,198,0,0.25);">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:rgba(160,198,0,0.12);border:1px solid rgba(160,198,0,0.2);">
+            <i data-lucide="microchip" style="color:var(--green);" class="w-4 h-4"></i>
+          </div>
+          <div>
+            <p class="text-xs font-bold">Quantum Analyzer</p>
+            <p style="font-size:9px;color:var(--muted);">200+ indicadores activos</p>
+          </div>
+        </div>
+        <div class="flex gap-1">
+          <div class="led" style="background:var(--green);width:5px;height:5px;"></div>
+          <div class="led" style="background:var(--green);width:5px;height:5px;"></div>
+          <div class="led" style="background:var(--orange);width:5px;height:5px;"></div>
+          <div class="led" style="background:var(--green);width:5px;height:5px;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESTO DE LA PÁGINA (sin cambios) -->
+<section class="max-w-4xl mx-auto px-6 pb-12">
+  <div class="reveal">
+    <div class="glass-or rounded-3xl p-8 md:p-10 text-center relative overflow-hidden">
+      <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:300px;height:200px;background:radial-gradient(ellipse,rgba(255,127,0,0.1),transparent 70%);"></div>
+      <div class="flex justify-center mb-5 avatar-stack relative z-10">
+        <img src="https://randomuser.me/api/portraits/women/68.jpg" class="w-12 h-12 md:w-14 md:h-14 rounded-full border-2 border-[var(--orange)] -ml-2 first:ml-0">
+        <img src="https://randomuser.me/api/portraits/men/32.jpg" class="w-12 h-12 md:w-14 md:h-14 rounded-full border-2 border-[var(--orange)] -ml-3">
+        <img src="https://randomuser.me/api/portraits/women/45.jpg" class="w-12 h-12 md:w-14 md:h-14 rounded-full border-2 border-[var(--orange)] -ml-3">
+        <img src="https://randomuser.me/api/portraits/men/75.jpg" class="w-12 h-12 md:w-14 md:h-14 rounded-full border-2 border-[var(--orange)] -ml-3">
+      </div>
+      <div class="flex justify-center gap-1 mb-4"><i data-lucide="star" class="w-5 h-5 fill-yellow-400 text-yellow-400"></i><i data-lucide="star" class="w-5 h-5 fill-yellow-400 text-yellow-400"></i><i data-lucide="star" class="w-5 h-5 fill-yellow-400 text-yellow-400"></i><i data-lucide="star" class="w-5 h-5 fill-yellow-400 text-yellow-400"></i><i data-lucide="star" class="w-5 h-5 fill-yellow-400 text-yellow-400"></i></div>
+      <p class="text-lg md:text-xl font-semibold"><span class="gold-text font-black text-2xl">+500 personas</span> ya han confiado en Azbel.<br><span style="color:var(--muted);">Resultados reales. Bienestar real.</span></p>
+    </div>
+  </div>
+</section>
+<hr class="fancy-divider max-w-3xl mx-auto opacity-60 mb-16">
+
+<section class="max-w-6xl mx-auto px-6 md:px-12 py-16 relative">
+  <div class="glow-orb glow-green" style="width:400px;height:400px;top:0;left:50%;transform:translateX(-50%);opacity:0.4;"></div>
+  <div class="text-center mb-14 reveal"><div class="section-sep mb-4"><span>Tu bienestar importa</span></div><h2 class="text-4xl md:text-5xl font-black mb-4"><span class="gold-text">Señales que tu cuerpo</span><br><span style="color:var(--text);">puede estar enviando</span></h2><p style="color:var(--muted);" class="max-w-md mx-auto text-base">Si reconoces alguna de estas señales, el análisis cuántico puede revelarte el origen.</p></div>
+  <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+    <div class="glass symptom-card rounded-3xl p-6 text-center"><div class="w-14 h-14 rounded-2xl mx-auto mb-4 flex items-center justify-center" style="background:rgba(160,198,0,0.1);"><i data-lucide="brain" style="color:var(--green);" class="w-7 h-7"></i></div><p class="font-bold text-sm">Tecnología cognosiva</p><p class="text-xs mt-1" style="color:var(--muted);">Optimización neuronal</p></div>
+    <div class="glass symptom-card rounded-3xl p-6 text-center"><div class="w-14 h-14 rounded-2xl mx-auto mb-4 flex items-center justify-center" style="background:rgba(255,127,0,0.1);"><i data-lucide="head-side-virus" style="color:var(--orange);" class="w-7 h-7"></i></div><p class="font-bold text-sm">Dolor de cabeza</p><p class="text-xs mt-1" style="color:var(--muted);">Tensión frecuente</p></div>
+    <div class="glass symptom-card rounded-3xl p-6 text-center"><div class="w-14 h-14 rounded-2xl mx-auto mb-4 flex items-center justify-center" style="background:rgba(160,198,0,0.1);"><i data-lucide="moon" style="color:var(--green);" class="w-7 h-7"></i></div><p class="font-bold text-sm">Problemas para dormir</p><p class="text-xs mt-1" style="color:var(--muted);">Insomnio reparador</p></div>
+    <div class="glass symptom-card rounded-3xl p-6 text-center"><div class="w-14 h-14 rounded-2xl mx-auto mb-4 flex items-center justify-center" style="background:rgba(255,127,0,0.1);"><i data-lucide="heart-pulse" style="color:var(--orange);" class="w-7 h-7"></i></div><p class="font-bold text-sm">Estrés y ansiedad</p><p class="text-xs mt-1" style="color:var(--muted);">Nerviosismo</p></div>
+    <div class="glass symptom-card rounded-3xl p-6 text-center"><div class="w-14 h-14 rounded-2xl mx-auto mb-4 flex items-center justify-center" style="background:rgba(160,198,0,0.1);"><i data-lucide="stethoscope" style="color:var(--green);" class="w-7 h-7"></i></div><p class="font-bold text-sm">Problemas digestivos</p><p class="text-xs mt-1" style="color:var(--muted);">Inflamación silenciosa</p></div>
+  </div>
+</section>
+<hr class="fancy-divider max-w-3xl mx-auto opacity-40 my-8">
+
+<section class="max-w-6xl mx-auto px-6 md:px-12 py-16">
+  <div class="flex flex-col md:flex-row gap-10 items-center">
+    <div class="flex-1 min-w-[260px] reveal">
+      <div class="video-thumb-wrap" id="videoThumb">
+        <img src="https://images.pexels.com/photos/6129043/doctor-talking-about-lung-x-ray/6129043.jpg?auto=compress&cs=tinysrgb&w=800" class="w-full object-cover" style="max-height:340px;">
+        <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(5,8,5,0.5),transparent 60%);"></div>
+        <div class="video-play-btn"><div class="play-ring"><i data-lucide="play" style="color:var(--green);width:24px;height:24px;margin-left:3px;"></i></div></div>
+        <div style="position:absolute;bottom:12px;right:12px;background:rgba(5,8,5,0.8);border:1px solid rgba(160,198,0,0.2);padding:3px 10px;border-radius:100px;font-size:11px;">2:15</div>
+      </div>
+    </div>
+    <div class="flex-1 reveal reveal-delay-2">
+      <div class="section-label">Conoce cómo funciona</div>
+      <h2 class="text-3xl md:text-4xl font-black leading-tight mb-4">Evaluación con<br><span class="gold-text">tecnología cuántica avanzada</span></h2>
+      <p class="text-base leading-relaxed mb-6" style="color:var(--muted);">Entiende cómo podemos ayudarte a mejorar tu bienestar desde la raíz. El análisis combina más de 200 indicadores para un resultado preciso y personalizado.</p>
+      <div class="flex flex-col gap-3"><div class="flex items-center gap-3"><div class="w-7 h-7 rounded-full flex items-center justify-center" style="background:rgba(160,198,0,0.1);border:1px solid rgba(160,198,0,0.2);font-size:11px;color:var(--green);">01</div>Colocas las manos en el dispositivo</div><div class="flex items-center gap-3"><div class="w-7 h-7 rounded-full flex items-center justify-center" style="background:rgba(255,127,0,0.1);border:1px solid rgba(255,127,0,0.2);font-size:11px;color:var(--orange);">02</div>El sistema analiza en 3 minutos</div><div class="flex items-center gap-3"><div class="w-7 h-7 rounded-full flex items-center justify-center" style="background:rgba(160,198,0,0.1);border:1px solid rgba(160,198,0,0.2);font-size:11px;color:var(--green);">03</div>Recibes tu informe personalizado</div></div>
+    </div>
+  </div>
+</section>
+<hr class="fancy-divider max-w-3xl mx-auto opacity-40 my-8">
+
+<section class="max-w-6xl mx-auto px-6 md:px-12 py-16">
+  <div class="flex flex-col-reverse md:flex-row gap-10 items-center">
+    <div class="flex-1 reveal">
+      <div class="section-label">Tecnología de última generación</div>
+      <h2 class="text-3xl md:text-4xl font-black leading-tight mb-4">Quantum Weak Magnetic<br><span class="green-text">Resonance Analyzer</span></h2>
+      <p class="text-base leading-relaxed mb-8" style="color:var(--muted);">Analiza más de 200 indicadores de tu cuerpo para entregarte información precisa, confiable y personalizada.</p>
+      <div class="flex gap-4 flex-wrap mb-8"><span class="flex items-center gap-2 text-sm font-semibold" style="color:var(--green);"><i data-lucide="check-circle" class="w-4 h-4"></i> Preciso</span><span class="flex items-center gap-2 text-sm font-semibold" style="color:var(--green);"><i data-lucide="check-circle" class="w-4 h-4"></i> Confiable</span><span class="flex items-center gap-2 text-sm font-semibold" style="color:var(--orange);"><i data-lucide="microchip" class="w-4 h-4"></i> Avanzado</span></div>
+      <div class="grid grid-cols-2 gap-3"><div class="stat-item"><div class="stat-num">200+</div><div class="stat-label">indicadores analizados</div></div><div class="stat-item"><div class="stat-num">3 min</div><div class="stat-label">duración del análisis</div></div><div class="stat-item"><div class="stat-num">0</div><div class="stat-label">agujas ni dolor</div></div><div class="stat-item"><div class="stat-num">500+</div><div class="stat-label">evaluaciones realizadas</div></div></div>
+    </div>
+    <div class="flex-1 flex justify-center reveal reveal-delay-2"><div class="relative w-full max-w-xs" style="aspect-ratio:1;"><div class="device-glow"></div><div class="orbit" style="inset:8%;border-color:rgba(160,198,0,0.12);"></div><div class="orbit orbit-2" style="inset:0;border-color:rgba(255,127,0,0.08);"></div><div class="glass animated-border scan-wrap rounded-[28px] p-4 relative z-10 floating" style="margin:16px;"><img src="https://images.pexels.com/photos/356040/pexels-photo-356040.jpeg?auto=compress&cs=tinysrgb&w=500" class="rounded-[20px] w-full object-cover" style="max-height:280px;"><div style="position:absolute;inset:16px;bottom:16px;background:linear-gradient(to top,rgba(5,8,5,0.7) 0%,transparent 50%);border-radius:20px;"></div><div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-1.5"><div class="led" style="background:var(--green);"></div><div class="led" style="background:var(--green);"></div><div class="led" style="background:var(--orange);"></div><div class="led" style="background:var(--green);"></div><div class="led" style="background:var(--green);"></div></div></div><div class="data-card floating-slow" style="position:absolute;bottom:0;right:-10px;padding:6px 12px;gap:6px;"><i data-lucide="activity" style="color:var(--green);width:14px;height:14px;"></i><div><span class="data-card-label">Estado</span><div style="color:var(--green);font-size:12px;font-weight:bold;">Operativo</div></div></div></div></div>
+  </div>
+</section>
+<hr class="fancy-divider max-w-3xl mx-auto opacity-40 my-4">
+
+<section id="formSection" class="max-w-4xl mx-auto px-6 py-16">
+  <div class="reveal"><div class="glass-or animated-border rounded-[2rem] p-8 md:p-12 relative overflow-hidden"><div style="position:absolute;top:-30%;right:-20%;width:400px;height:400px;background:radial-gradient(circle,rgba(255,127,0,0.1),transparent 65%);filter:blur(50px);"></div><div class="text-center mb-10"><div class="badge-pill mb-4" style="margin:0 auto 16px;width:fit-content;"><span class="dot" style="background:var(--green);"></span><span style="color:var(--green);">Reserva ahora</span></div><h2 class="text-4xl md:text-5xl font-black gold-text mb-2">Evaluación personalizada</h2><p style="color:var(--muted);">Completa tus datos y elige horario</p></div>
+    <form id="leadForm" class="space-y-5"><div class="grid md:grid-cols-2 gap-5"><input type="text" id="nombre" placeholder="Nombre completo *" class="w-full p-4 rounded-2xl" required><input type="number" id="edad" placeholder="Edad *" class="w-full p-4 rounded-2xl" required></div><input type="tel" id="telefono" placeholder="WhatsApp (incluye código país) *" class="w-full p-4 rounded-2xl" required><div><label class="block mb-3 font-medium text-sm" style="color:var(--muted);"><i data-lucide="clock" class="inline w-4 h-4 mr-1" style="color:var(--green);"></i>Horario preferido</label><div class="flex flex-wrap gap-2" id="hourSelector"><div data-hour="9:00 AM" class="hour-badge px-4 py-2.5 rounded-full text-sm">9:00 AM</div><div data-hour="10:30 AM" class="hour-badge px-4 py-2.5 rounded-full text-sm active">10:30 AM</div><div data-hour="12:00 PM" class="hour-badge px-4 py-2.5 rounded-full text-sm">12:00 PM</div><div data-hour="3:00 PM" class="hour-badge px-4 py-2.5 rounded-full text-sm">3:00 PM</div><div data-hour="4:30 PM" class="hour-badge px-4 py-2.5 rounded-full text-sm">4:30 PM</div></div></div><button type="submit" class="wa-btn w-full py-5 rounded-2xl text-white text-base flex items-center justify-center gap-2"><i data-lucide="send" class="w-5 h-5"></i>CONTINUAR POR WHATSAPP</button></form><p class="text-center text-xs mt-6" style="color:rgba(160,180,140,0.5);"><i data-lucide="shield-check" class="inline w-3 h-3 mr-1" style="color:var(--green);"></i>Registramos tu solicitud y te contactamos al instante. Cupos limitados.</p></div></div>
+</section>
+
+<div class="max-w-5xl mx-auto px-6 pb-24"><div class="grid md:grid-cols-2 gap-5"><div id="whatsappDoubleBtn" class="glass cta-card rounded-3xl p-8 text-center cursor-pointer border" style="border-color:rgba(37,168,77,0.2);"><div class="w-16 h-16 rounded-2xl mx-auto mb-4 flex items-center justify-center" style="background:rgba(37,168,77,0.12);"><i data-lucide="message-circle" style="color:#25D366;" class="w-8 h-8"></i></div><h3 class="text-xl font-black mb-1" style="color:#25D366;">CONTINUAR POR WHATSAPP</h3><p style="color:var(--muted);">Reserva en menos de 1 minuto</p></div><div id="agendarDoubleBtn" class="glass cta-card rounded-3xl p-8 text-center cursor-pointer border" style="border-color:rgba(255,127,0,0.2);"><div class="w-16 h-16 rounded-2xl mx-auto mb-4 flex items-center justify-center" style="background:rgba(255,127,0,0.12);"><i data-lucide="calendar" style="color:var(--orange);" class="w-8 h-8"></i></div><h3 class="text-xl font-black mb-1 gold-text">AGENDAR AHORA</h3><p style="color:var(--muted);">Cupos limitados hoy</p></div></div></div>
+
+<footer class="border-t py-12 px-6 text-center" style="border-color:rgba(160,198,0,0.08);"><div class="flex items-center justify-center gap-2 mb-3"><div style="width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#FF7F00,#A0C600);display:flex;align-items:center;justify-content:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#050805"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg></div><span class="logo-mark gold-text text-xl">AZBEL</span></div><p style="color:rgba(160,180,140,0.35);font-size:13px;">© 2025 AZBEL Wellness & Health — Tecnología cuántica para tu bienestar integral.</p></footer>
+
+<div class="mobile-sticky"><a href="https://wa.me/51961407627" class="wa-btn flex-1 py-3.5 rounded-xl text-white text-xs flex items-center justify-center gap-2"><i data-lucide="message-circle" class="w-4 h-4"></i>WHATSAPP</a><button onclick="scrollToForm()" class="gold-btn flex-1 py-3.5 rounded-xl text-black text-xs flex items-center justify-center gap-2"><i data-lucide="calendar" class="w-4 h-4"></i>AGENDAR</button></div>
+
+<script>
+  lucide.createIcons();
+  const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyM2SyRmCMEFXurfk8VzX1vP1AuzDBf7eE9NCABSB_pm8iXqCzW2LvPLXShUKvVN8I61Q/exec";
+  const WHATSAPP_NUMBER = "51961407627";
+
+  let selectedHour = "10:30 AM";
+  document.querySelectorAll('.hour-badge').forEach(el => {
+    if(el.classList.contains('active')) selectedHour = el.dataset.hour;
+    el.addEventListener('click', function() {
+      document.querySelectorAll('.hour-badge').forEach(h => h.classList.remove('active'));
+      this.classList.add('active');
+      selectedHour = this.dataset.hour;
+    });
+  });
+
+  function showToast(msg, isErr) {
+    let t = document.querySelector('.toast-message');
+    if(!t) { t = document.createElement('div'); t.className = 'toast-message'; document.body.appendChild(t); }
+    t.style.backgroundColor = isErr ? '#8B0000' : '#0d0d0d';
+    t.textContent = msg;
+    t.style.opacity = '1';
+    setTimeout(() => t.style.opacity = '0', 3500);
+  }
+
+  async function saveLeadAndRedirect(e) {
+    if(e) e.preventDefault();
+    const nombre = document.getElementById('nombre').value.trim();
+    const edad = document.getElementById('edad').value.trim();
+    const telefono = document.getElementById('telefono').value.trim();
+    if(!nombre || !edad || !telefono) { showToast("⚠️ Completa todos los campos", true); return false; }
+    if(telefono.length < 8) { showToast("📱 Número inválido", true); return false; }
+    const payload = { nombre, edad, telefono, sintomas:"", producto:"", tratamiento:"", proxima_visita:"", hora:selectedHour, estado:"Nuevo Lead" };
+    try { await fetch(APPS_SCRIPT_URL, { method:'POST', mode:'no-cors', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload) }); showToast("✅ Registro exitoso"); } catch(e) { console.log(e); showToast("⚠️ Error, pero abriremos WhatsApp", true); }
+    const msg = `Hola, mi nombre es ${nombre}, tengo ${edad} años, mi teléfono es ${telefono}. Quiero reservar evaluación a las ${selectedHour}.`;
+    setTimeout(() => window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, '_blank'), 600);
+    document.getElementById('leadForm').reset();
+    return true;
+  }
+
+  document.getElementById('leadForm')?.addEventListener('submit', saveLeadAndRedirect);
+  document.getElementById('whatsappDoubleBtn')?.addEventListener('click', saveLeadAndRedirect);
+  document.getElementById('agendarDoubleBtn')?.addEventListener('click', saveLeadAndRedirect);
+  window.scrollToForm = () => document.getElementById('formSection').scrollIntoView({ behavior:'smooth' });
+
+  const videoThumb = document.getElementById('videoThumb');
+  if(videoThumb) videoThumb.addEventListener('click', ()=>{
+    if(videoThumb.querySelector('iframe')) return;
+    const iframe = document.createElement('iframe');
+    iframe.src = 'https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1';
+    iframe.setAttribute('allowfullscreen', true);
+    iframe.classList.add('w-full','rounded-2xl','aspect-video');
+    videoThumb.innerHTML = '';
+    videoThumb.appendChild(iframe);
+  });
+
+  setInterval(() => lucide.createIcons(), 500);
+  const revealObs = new IntersectionObserver(entries => entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); revealObs.unobserve(e.target); } }), { threshold:0.12, rootMargin:'0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+  window.addEventListener('scroll', () => document.getElementById('navbar')?.classList.toggle('scrolled', window.scrollY > 40), {passive:true});
+
+  function spawnParticles() {
+    const c = document.getElementById('heroParticles');
+    if(!c) return;
+    for(let i=0;i<18;i++) {
+      let p = document.createElement('div');
+      p.className = 'particle';
+      p.style.cssText = `left:${Math.random()*100}%;bottom:${Math.random()*40}%;width:${1+Math.random()*2}px;height:${1+Math.random()*2}px;background:${Math.random()>0.5?'var(--green)':'var(--orange)'};animation-duration:${5+Math.random()*8}s;animation-delay:${Math.random()*6}s;`;
+      c.appendChild(p);
+    }
+  }
+  spawnParticles();
+</script>
+</body>
+</html>
