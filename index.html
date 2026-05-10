@@ -751,6 +751,28 @@
         max-width: 280px;
       }
     }
+
+    /* Estilos para el mapa */
+    .map-container {
+      width: 100%;
+      height: 320px;
+      border-radius: 1.5rem;
+      overflow: hidden;
+      box-shadow: 0 20px 35px -12px rgba(0,0,0,0.4);
+      transition: transform 0.3s ease;
+    }
+    .map-container:hover {
+      transform: translateY(-5px);
+    }
+    .map-container iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      filter: brightness(0.95) contrast(1.05);
+    }
+    @media (min-width: 768px) {
+      .map-container { height: 380px; }
+    }
   </style>
 </head>
 
@@ -865,11 +887,6 @@
   </div>
 </section>
 
-<!-- RESTO DE LA PÁGINA (social proof, síntomas, vídeo, tecnología, formulario, doble CTA, footer) -->
-<!-- Se mantiene exactamente igual que en la versión funcional anterior, sin cambios -->
-<!-- Para no alargar el mensaje, incluyo el resto de secciones completas como en la versión anterior -->
-<!-- (He decidido incluir el contenido completo para que sea funcional tal como estaba) -->
-
 <!-- SOCIAL PROOF -->
 <section class="max-w-4xl mx-auto px-6 pb-12">
   <div class="reveal">
@@ -944,7 +961,30 @@
     <form id="leadForm" class="space-y-5"><div class="grid md:grid-cols-2 gap-5"><input type="text" id="nombre" placeholder="Nombre completo *" class="w-full p-4 rounded-2xl" required><input type="number" id="edad" placeholder="Edad *" class="w-full p-4 rounded-2xl" required></div><input type="tel" id="telefono" placeholder="WhatsApp (incluye código país) *" class="w-full p-4 rounded-2xl" required><div><label class="block mb-3 font-medium text-sm" style="color:var(--muted);"><i data-lucide="clock" class="inline w-4 h-4 mr-1" style="color:var(--green);"></i>Horario preferido</label><div class="flex flex-wrap gap-2" id="hourSelector"><div data-hour="9:00 AM" class="hour-badge px-4 py-2.5 rounded-full text-sm">9:00 AM</div><div data-hour="10:30 AM" class="hour-badge px-4 py-2.5 rounded-full text-sm active">10:30 AM</div><div data-hour="12:00 PM" class="hour-badge px-4 py-2.5 rounded-full text-sm">12:00 PM</div><div data-hour="3:00 PM" class="hour-badge px-4 py-2.5 rounded-full text-sm">3:00 PM</div><div data-hour="4:30 PM" class="hour-badge px-4 py-2.5 rounded-full text-sm">4:30 PM</div></div></div><button type="submit" class="wa-btn w-full py-5 rounded-2xl text-white text-base flex items-center justify-center gap-2"><i data-lucide="send" class="w-5 h-5"></i>CONTINUAR POR WHATSAPP</button></form><p class="text-center text-xs mt-6" style="color:rgba(160,180,140,0.5);"><i data-lucide="shield-check" class="inline w-3 h-3 mr-1" style="color:var(--green);"></i>Registramos tu solicitud y te contactamos al instante. Cupos limitados.</p></div></div>
 </section>
 
-<!-- DOBLE CTA -->
+<!-- 🌍 SECCIÓN DEL MAPA (NUEVA) -->
+<section class="max-w-5xl mx-auto px-6 py-16">
+  <div class="reveal glass-or rounded-3xl p-6 md:p-10 text-center">
+    <h2 class="text-3xl md:text-4xl font-black gold-text mb-3">📍 Nuestra ubicación</h2>
+    <p class="text-gray-400 mb-6 max-w-lg mx-auto">Visítanos en nuestro centro de salud cuántica. Estamos ubicados en el corazón de la ciudad, con fácil acceso.</p>
+    <div class="map-container">
+      <!-- ⚠️ IMPORTANTE: Reemplaza el src del iframe con el embed de tu ubicación real -->
+      <!-- Puedes obtener el código de incrustación desde Google Maps: Compartir -> Incrustar un mapa -->
+      <iframe 
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3037.0!2d-3.7038!3d40.4168!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd422997800a3c81%3A0xc6dec2c5e1c6e6c5!2sPuerta%20del%20Sol!5e0!3m2!1ses!2ses!4v1234567890" 
+        allowfullscreen="" 
+        loading="lazy" 
+        referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
+    </div>
+    <div class="mt-5 flex flex-col sm:flex-row items-center justify-center gap-4 text-sm text-gray-300">
+      <div class="flex items-center gap-2"><i data-lucide="map-pin" class="w-4 h-4 text-green-500"></i> <span>Calle de la Salud, 42, 28001 Madrid</span></div>
+      <div class="flex items-center gap-2"><i data-lucide="clock" class="w-4 h-4 text-orange-500"></i> <span>Lun a Vie: 9:00 - 20:00</span></div>
+      <a href="https://maps.app.goo.gl/oCs2ZYHAHSiMsX9p9" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-green-400 hover:text-green-300 transition-colors"><i data-lucide="external-link" class="w-3 h-3"></i> Abrir en Google Maps</a>
+    </div>
+  </div>
+</section>
+
+<!-- DOBLE CTA FINAL -->
 <div class="max-w-5xl mx-auto px-6 pb-24"><div class="grid md:grid-cols-2 gap-5"><div id="whatsappDoubleBtn" class="glass cta-card rounded-3xl p-8 text-center cursor-pointer border" style="border-color:rgba(37,168,77,0.2);"><div class="w-16 h-16 rounded-2xl mx-auto mb-4 flex items-center justify-center" style="background:rgba(37,168,77,0.12);"><i data-lucide="message-circle" style="color:#25D366;" class="w-8 h-8"></i></div><h3 class="text-xl font-black mb-1" style="color:#25D366;">CONTINUAR POR WHATSAPP</h3><p style="color:var(--muted);">Reserva en menos de 1 minuto</p></div><div id="agendarDoubleBtn" class="glass cta-card rounded-3xl p-8 text-center cursor-pointer border" style="border-color:rgba(255,127,0,0.2);"><div class="w-16 h-16 rounded-2xl mx-auto mb-4 flex items-center justify-center" style="background:rgba(255,127,0,0.12);"><i data-lucide="calendar" style="color:var(--orange);" class="w-8 h-8"></i></div><h3 class="text-xl font-black mb-1 gold-text">AGENDAR AHORA</h3><p style="color:var(--muted);">Cupos limitados hoy</p></div></div></div>
 
 <footer class="border-t py-12 px-6 text-center" style="border-color:rgba(160,198,0,0.08);"><div class="flex items-center justify-center gap-2 mb-3"><div style="width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,#FF7F00,#A0C600);display:flex;align-items:center;justify-content:center;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#050805"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg></div><span class="logo-mark gold-text text-xl">AZBEL</span></div><p style="color:rgba(160,180,140,0.35);font-size:13px;">© 2025 AZBEL Wellness & Health — Tecnología cuántica para tu bienestar integral.</p></footer>
