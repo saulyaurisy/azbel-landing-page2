@@ -18,7 +18,7 @@
 
   <style>
     /* ═══════════════════════════════════════════
-       CSS VARIABLES & TOKENS (sin cambios)
+       CSS VARIABLES & TOKENS
     ═══════════════════════════════════════════ */
     :root {
       --orange:      #FF7F00;
@@ -103,7 +103,7 @@
       -webkit-text-fill-color: transparent;
     }
 
-    /* Botones (sin cambios) */
+    /* Botones */
     .gold-btn {
       position: relative;
       overflow: hidden;
@@ -672,7 +672,6 @@
        RESPONSIVE: SILUETA SE REUBICA DEBAJO DEL TEXTO, PERO NO SE OCULTA
     ═══════════════════════════════════════════ */
     @media (max-width: 1023px) {
-      /* El hero ahora es columna única */
       .hero-grid {
         flex-direction: column !important;
       }
@@ -681,11 +680,10 @@
         max-width: 100%;
       }
       .hero-visual-col {
-        display: block !important;  /* se muestra en móvil */
+        display: block !important;
         width: 100% !important;
         margin-top: 2rem;
       }
-      /* Ajustamos tamaño de la silueta en móvil */
       .silhouette-container {
         max-width: 320px;
         margin: 0 auto;
@@ -694,7 +692,6 @@
         height: auto !important;
         max-height: 320px;
       }
-      /* Reajuste de badges en móvil (se mantienen pero más compactos) */
       .float-badge {
         padding: 3px 8px;
       }
@@ -709,7 +706,6 @@
         font-size: 9px;
         left: 15%;
       }
-      /* Ajuste de texto */
       .hero-text-col h1 {
         font-size: clamp(32px, 8vw, 56px) !important;
       }
@@ -780,7 +776,7 @@
 
 <div class="bg-mesh" aria-hidden="true"></div>
 
-<!-- NAVBAR (sin cambios) -->
+<!-- NAVBAR -->
 <nav id="navbar" class="navbar w-full px-6 md:px-14 py-4 flex justify-between items-center sticky top-0 z-50">
   <div class="flex items-center gap-3">
     <div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#FF7F00,#A0C600);display:flex;align-items:center;justify-content:center;">
@@ -797,7 +793,7 @@
   </button>
 </nav>
 
-<!-- HERO: ahora con layout flexible que se apila en móvil -->
+<!-- HERO -->
 <section class="relative max-w-7xl mx-auto px-6 md:px-12 pt-20 pb-24 md:pt-28 md:pb-32 overflow-hidden">
   <div class="glow-orb glow-green" style="width:600px;height:600px;top:-20%;left:-15%;opacity:0.6;"></div>
   <div class="glow-orb glow-orange" style="width:400px;height:400px;top:10%;right:-10%;opacity:0.5;"></div>
@@ -807,7 +803,7 @@
     <!-- COLUMNA IZQUIERDA: TEXTO -->
     <div class="hero-text-col flex-1 min-w-0">
       <div class="badge-pill mb-5 reveal" style="display:inline-flex;">
-        <span class="dot"></span> 🔥 ÚLTIMOS CUPOS HOY
+        <span class="dot"></span> 🔥 REALIZA TU EVALUACIÓN HOY
       </div>
       <h1 class="font-black leading-[1.2] tracking-tight mb-5 reveal reveal-delay-1" style="font-family:'Syne',sans-serif;font-size:clamp(38px,7vw,72px);">
         Descubre lo que<br>tu cuerpo
@@ -829,7 +825,7 @@
       </div>
     </div>
 
-    <!-- COLUMNA DERECHA: SILUETA + BADGES + ESCÁNER (se mostrará debajo en móvil) -->
+    <!-- COLUMNA DERECHA: SILUETA + BADGES + ESCÁNER -->
     <div class="hero-visual-col">
       <div class="relative silhouette-container glass scan-wrap animated-border" style="padding: 6px;">
         <img src="https://i.ibb.co/bqjcC4V/Umarul-removebg-preview.png"
@@ -919,15 +915,18 @@
 </section>
 <hr class="fancy-divider max-w-3xl mx-auto opacity-40 my-8">
 
-<!-- VIDEO -->
+<!-- VIDEO CON NUEVO ENLACE DE YOUTUBE -->
 <section class="max-w-6xl mx-auto px-6 md:px-12 py-16">
   <div class="flex flex-col md:flex-row gap-10 items-center">
     <div class="flex-1 min-w-[260px] reveal">
       <div class="video-thumb-wrap relative" id="videoThumb">
-        <img src="https://images.pexels.com/photos/6129043/doctor-talking-about-lung-x-ray/6129043.jpg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop" alt="Médico mostrando tecnología cuántica" class="w-full h-auto object-cover">
+        <!-- Miniatura oficial del vídeo de YouTube -->
+        <img src="https://img.youtube.com/vi/yLbJ2USw43A/maxresdefault.jpg" 
+             alt="Video explicativo tecnología cuántica AZBEL" 
+             class="w-full h-auto object-cover">
         <div class="gradient-overlay"></div>
         <div class="play-ring"><i data-lucide="play" class="w-8 h-8 ml-1"></i></div>
-        <div class="duration-badge"><i data-lucide="clock"></i><span>2:15</span></div>
+        <div class="duration-badge"><i data-lucide="clock"></i><span>3:25</span></div>
       </div>
     </div>
     <div class="flex-1 reveal reveal-delay-2">
@@ -961,24 +960,22 @@
     <form id="leadForm" class="space-y-5"><div class="grid md:grid-cols-2 gap-5"><input type="text" id="nombre" placeholder="Nombre completo *" class="w-full p-4 rounded-2xl" required><input type="number" id="edad" placeholder="Edad *" class="w-full p-4 rounded-2xl" required></div><input type="tel" id="telefono" placeholder="WhatsApp (incluye código país) *" class="w-full p-4 rounded-2xl" required><div><label class="block mb-3 font-medium text-sm" style="color:var(--muted);"><i data-lucide="clock" class="inline w-4 h-4 mr-1" style="color:var(--green);"></i>Horario preferido</label><div class="flex flex-wrap gap-2" id="hourSelector"><div data-hour="9:00 AM" class="hour-badge px-4 py-2.5 rounded-full text-sm">9:00 AM</div><div data-hour="10:30 AM" class="hour-badge px-4 py-2.5 rounded-full text-sm active">10:30 AM</div><div data-hour="12:00 PM" class="hour-badge px-4 py-2.5 rounded-full text-sm">12:00 PM</div><div data-hour="3:00 PM" class="hour-badge px-4 py-2.5 rounded-full text-sm">3:00 PM</div><div data-hour="4:30 PM" class="hour-badge px-4 py-2.5 rounded-full text-sm">4:30 PM</div></div></div><button type="submit" class="wa-btn w-full py-5 rounded-2xl text-white text-base flex items-center justify-center gap-2"><i data-lucide="send" class="w-5 h-5"></i>CONTINUAR POR WHATSAPP</button></form><p class="text-center text-xs mt-6" style="color:rgba(160,180,140,0.5);"><i data-lucide="shield-check" class="inline w-3 h-3 mr-1" style="color:var(--green);"></i>Registramos tu solicitud y te contactamos al instante. Cupos limitados.</p></div></div>
 </section>
 
-<!-- 🌍 SECCIÓN DEL MAPA (NUEVA) -->
+<!-- SECCIÓN DEL MAPA -->
 <section class="max-w-5xl mx-auto px-6 py-16">
   <div class="reveal glass-or rounded-3xl p-6 md:p-10 text-center">
     <h2 class="text-3xl md:text-4xl font-black gold-text mb-3">📍 Nuestra ubicación</h2>
     <p class="text-gray-400 mb-6 max-w-lg mx-auto">Visítanos en nuestro centro de salud cuántica. Estamos ubicados en el corazón de la ciudad, con fácil acceso.</p>
     <div class="map-container">
-      <!-- ⚠️ IMPORTANTE: Reemplaza el src del iframe con el embed de tu ubicación real -->
-      <!-- Puedes obtener el código de incrustación desde Google Maps: Compartir -> Incrustar un mapa -->
       <iframe 
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3037.0!2d-3.7038!3d40.4168!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd422997800a3c81%3A0xc6dec2c5e1c6e6c5!2sPuerta%20del%20Sol!5e0!3m2!1ses!2ses!4v1234567890" 
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3902.7414200961834!2d-77.08191459999999!3d-11.992385899999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9105cf0f8eab4517%3A0xaeed5af473c9fd9c!2sAZBEL%20CORP!5e0!3m2!1ses-419!2spe!4v1778516859370!5m2!1ses-419!2spe" 
         allowfullscreen="" 
         loading="lazy" 
         referrerpolicy="no-referrer-when-downgrade">
       </iframe>
     </div>
     <div class="mt-5 flex flex-col sm:flex-row items-center justify-center gap-4 text-sm text-gray-300">
-      <div class="flex items-center gap-2"><i data-lucide="map-pin" class="w-4 h-4 text-green-500"></i> <span>Calle de la Salud, 42, 28001 Madrid</span></div>
-      <div class="flex items-center gap-2"><i data-lucide="clock" class="w-4 h-4 text-orange-500"></i> <span>Lun a Vie: 9:00 - 20:00</span></div>
+      <div class="flex items-center gap-2"><i data-lucide="map-pin" class="w-4 h-4 text-green-500"></i> <span>Calle David Alva, MZ:G LT:35, Los Olivos</span></div>
+      <div class="flex items-center gap-2"><i data-lucide="clock" class="w-4 h-4 text-orange-500"></i> <span>Lun a Sab: 9:00 - 19:00</span></div>
       <a href="https://maps.app.goo.gl/oCs2ZYHAHSiMsX9p9" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-green-400 hover:text-green-300 transition-colors"><i data-lucide="external-link" class="w-3 h-3"></i> Abrir en Google Maps</a>
     </div>
   </div>
@@ -1035,11 +1032,12 @@
   document.getElementById('agendarDoubleBtn')?.addEventListener('click', saveLeadAndRedirect);
   window.scrollToForm = () => document.getElementById('formSection').scrollIntoView({ behavior:'smooth' });
 
+  // Reproductor de vídeo actualizado con el nuevo enlace
   const videoThumb = document.getElementById('videoThumb');
   if(videoThumb) videoThumb.addEventListener('click', ()=>{
     if(videoThumb.querySelector('iframe')) return;
     const iframe = document.createElement('iframe');
-    iframe.src = 'https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1';
+    iframe.src = 'https://www.youtube.com/embed/yLbJ2USw43A?autoplay=1';
     iframe.setAttribute('allowfullscreen', true);
     iframe.classList.add('w-full','rounded-2xl','aspect-video');
     videoThumb.innerHTML = '';
