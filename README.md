@@ -78,24 +78,30 @@ Genera automáticamente un mensaje personalizado para reservas:
 
 ```text
 Hola, mi nombre es Saúl y deseo reservar una evaluación.
+```
 
-📊 Google Sheets Integration
+---
+
+## 📊 Google Sheets Integration
 
 La landing guarda automáticamente:
 
-Nombre
-Edad
-Teléfono
-Estado del lead
+- Nombre
+- Edad
+- Teléfono
+- Estado del lead
 
 mediante:
 
-Google Apps Script
-Fetch API
-JSON POST Requests
+- Google Apps Script
+- Fetch API
+- JSON POST Requests
 
-🚀 Tecnologías utilizadas
+---
 
+# 🚀 Tecnologías utilizadas
+
+```text
 HTML5
 CSS3
 JavaScript
@@ -103,3 +109,68 @@ TailwindCSS
 GSAP
 Google Apps Script
 GitHub Pages
+```
+
+---
+
+# 📱 Mobile Experience
+
+La landing fue diseñada principalmente para móviles:
+
+- TikTok Ads
+- Instagram Ads
+- Facebook Ads
+
+Optimizando:
+- velocidad
+- spacing
+- CTA visibility
+- scrolling
+- conversion flow
+
+---
+
+# 🖼 Preview
+
+## Hero Section
+
+- Device Showcase
+- Floating Cards
+- Animated Glow
+- Modern CTA
+- Quantum Wellness UI
+
+---
+
+# 🌐 Deploy
+
+Proyecto desplegado con:
+
+```text
+GitHub Pages
+```
+
+---
+
+# 📈 Objetivo del proyecto
+
+Crear una experiencia visual moderna y altamente optimizada para:
+
+- captación de leads
+- reservas
+- campañas publicitarias
+- automatización de clientes
+
+---
+
+# 🛠 Estado del proyecto
+
+```text
+En desarrollo activo
+```
+
+---
+
+# © AZBEL Wellness & Health
+
+Tecnología wellness avanzada para mejorar tu bienestar.
