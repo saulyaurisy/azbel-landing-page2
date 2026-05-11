@@ -18,7 +18,7 @@
 
   <style>
     /* ═══════════════════════════════════════════
-       CSS VARIABLES & TOKENS
+       CSS VARIABLES & TOKENS (sin cambios)
     ═══════════════════════════════════════════ */
     :root {
       --orange:      #FF7F00;
@@ -103,7 +103,7 @@
       -webkit-text-fill-color: transparent;
     }
 
-    /* Botones */
+    /* Botones (sin cambios) */
     .gold-btn {
       position: relative;
       overflow: hidden;
@@ -746,6 +746,14 @@
       .silhouette-container {
         max-width: 280px;
       }
+      /* Ajustamos horarios en móvil para que no se desborden */
+      .hour-badge {
+        font-size: 11px;
+        padding: 6px 12px;
+      }
+      #hourSelector {
+        gap: 6px;
+      }
     }
 
     /* Estilos para el mapa */
@@ -915,12 +923,11 @@
 </section>
 <hr class="fancy-divider max-w-3xl mx-auto opacity-40 my-8">
 
-<!-- VIDEO CON NUEVO ENLACE DE YOUTUBE -->
+<!-- VIDEO -->
 <section class="max-w-6xl mx-auto px-6 md:px-12 py-16">
   <div class="flex flex-col md:flex-row gap-10 items-center">
     <div class="flex-1 min-w-[260px] reveal">
       <div class="video-thumb-wrap relative" id="videoThumb">
-        <!-- Miniatura oficial del vídeo de YouTube -->
         <img src="https://img.youtube.com/vi/yLbJ2USw43A/maxresdefault.jpg" 
              alt="Video explicativo tecnología cuántica AZBEL" 
              class="w-full h-auto object-cover">
@@ -957,7 +964,19 @@
 <!-- FORMULARIO -->
 <section id="formSection" class="max-w-4xl mx-auto px-6 py-16">
   <div class="reveal"><div class="glass-or animated-border rounded-[2rem] p-8 md:p-12 relative overflow-hidden"><div style="position:absolute;top:-30%;right:-20%;width:400px;height:400px;background:radial-gradient(circle,rgba(255,127,0,0.1),transparent 65%);filter:blur(50px);"></div><div class="text-center mb-10"><div class="badge-pill mb-4" style="margin:0 auto 16px;width:fit-content;"><span class="dot" style="background:var(--green);"></span><span style="color:var(--green);">Reserva ahora</span></div><h2 class="text-4xl md:text-5xl font-black gold-text mb-2">Evaluación personalizada</h2><p style="color:var(--muted);">Completa tus datos y elige horario</p></div>
-    <form id="leadForm" class="space-y-5"><div class="grid md:grid-cols-2 gap-5"><input type="text" id="nombre" placeholder="Nombre completo *" class="w-full p-4 rounded-2xl" required><input type="number" id="edad" placeholder="Edad *" class="w-full p-4 rounded-2xl" required></div><input type="tel" id="telefono" placeholder="WhatsApp (incluye código país) *" class="w-full p-4 rounded-2xl" required><div><label class="block mb-3 font-medium text-sm" style="color:var(--muted);"><i data-lucide="clock" class="inline w-4 h-4 mr-1" style="color:var(--green);"></i>Horario preferido</label><div class="flex flex-wrap gap-2" id="hourSelector"><div data-hour="9:00 AM" class="hour-badge px-4 py-2.5 rounded-full text-sm">9:00 AM</div><div data-hour="10:30 AM" class="hour-badge px-4 py-2.5 rounded-full text-sm active">10:30 AM</div><div data-hour="12:00 PM" class="hour-badge px-4 py-2.5 rounded-full text-sm">12:00 PM</div><div data-hour="3:00 PM" class="hour-badge px-4 py-2.5 rounded-full text-sm">3:00 PM</div><div data-hour="4:30 PM" class="hour-badge px-4 py-2.5 rounded-full text-sm">4:30 PM</div></div></div><button type="submit" class="wa-btn w-full py-5 rounded-2xl text-white text-base flex items-center justify-center gap-2"><i data-lucide="send" class="w-5 h-5"></i>CONTINUAR POR WHATSAPP</button></form><p class="text-center text-xs mt-6" style="color:rgba(160,180,140,0.5);"><i data-lucide="shield-check" class="inline w-3 h-3 mr-1" style="color:var(--green);"></i>Registramos tu solicitud y te contactamos al instante. Cupos limitados.</p></div></div>
+    <form id="leadForm" class="space-y-5"><div class="grid md:grid-cols-2 gap-5"><input type="text" id="nombre" placeholder="Nombre completo *" class="w-full p-4 rounded-2xl" required><input type="number" id="edad" placeholder="Edad *" class="w-full p-4 rounded-2xl" required></div><input type="tel" id="telefono" placeholder="WhatsApp (incluye código país) *" class="w-full p-4 rounded-2xl" required><div><label class="block mb-3 font-medium text-sm" style="color:var(--muted);"><i data-lucide="clock" class="inline w-4 h-4 mr-1" style="color:var(--green);"></i>Horario preferido</label><div class="flex flex-wrap gap-2" id="hourSelector">
+        <!-- Horarios cada hora desde 9:00 hasta 18:00 -->
+        <div data-hour="9:00 AM" class="hour-badge px-4 py-2.5 rounded-full text-sm">9:00 AM</div>
+        <div data-hour="10:00 AM" class="hour-badge px-4 py-2.5 rounded-full text-sm">10:00 AM</div>
+        <div data-hour="11:00 AM" class="hour-badge px-4 py-2.5 rounded-full text-sm">11:00 AM</div>
+        <div data-hour="12:00 PM" class="hour-badge px-4 py-2.5 rounded-full text-sm active">12:00 PM</div>
+        <div data-hour="1:00 PM" class="hour-badge px-4 py-2.5 rounded-full text-sm">1:00 PM</div>
+        <div data-hour="2:00 PM" class="hour-badge px-4 py-2.5 rounded-full text-sm">2:00 PM</div>
+        <div data-hour="3:00 PM" class="hour-badge px-4 py-2.5 rounded-full text-sm">3:00 PM</div>
+        <div data-hour="4:00 PM" class="hour-badge px-4 py-2.5 rounded-full text-sm">4:00 PM</div>
+        <div data-hour="5:00 PM" class="hour-badge px-4 py-2.5 rounded-full text-sm">5:00 PM</div>
+        <div data-hour="6:00 PM" class="hour-badge px-4 py-2.5 rounded-full text-sm">6:00 PM</div>
+      </div></div><button type="submit" class="wa-btn w-full py-5 rounded-2xl text-white text-base flex items-center justify-center gap-2"><i data-lucide="send" class="w-5 h-5"></i>CONTINUAR POR WHATSAPP</button></form><p class="text-center text-xs mt-6" style="color:rgba(160,180,140,0.5);"><i data-lucide="shield-check" class="inline w-3 h-3 mr-1" style="color:var(--green);"></i>Registramos tu solicitud y te contactamos al instante. Cupos limitados.</p></div></div>
 </section>
 
 <!-- SECCIÓN DEL MAPA -->
@@ -975,7 +994,7 @@
     </div>
     <div class="mt-5 flex flex-col sm:flex-row items-center justify-center gap-4 text-sm text-gray-300">
       <div class="flex items-center gap-2"><i data-lucide="map-pin" class="w-4 h-4 text-green-500"></i> <span>Calle David Alva, MZ:G LT:35, Los Olivos</span></div>
-      <div class="flex items-center gap-2"><i data-lucide="clock" class="w-4 h-4 text-orange-500"></i> <span>Lun a Sab: 9:00 - 19:00</span></div>
+      <div class="flex items-center gap-2"><i data-lucide="clock" class="w-4 h-4 text-orange-500"></i> <span>Lun a Sab: 9:00 - 18:00</span></div>
       <a href="https://maps.app.goo.gl/oCs2ZYHAHSiMsX9p9" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 text-green-400 hover:text-green-300 transition-colors"><i data-lucide="external-link" class="w-3 h-3"></i> Abrir en Google Maps</a>
     </div>
   </div>
@@ -993,7 +1012,7 @@
   const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyM2SyRmCMEFXurfk8VzX1vP1AuzDBf7eE9NCABSB_pm8iXqCzW2LvPLXShUKvVN8I61Q/exec";
   const WHATSAPP_NUMBER = "51 949759538";
 
-  let selectedHour = "10:30 AM";
+  let selectedHour = "12:00 PM";
   document.querySelectorAll('.hour-badge').forEach(el => {
     if(el.classList.contains('active')) selectedHour = el.dataset.hour;
     el.addEventListener('click', function() {
@@ -1032,7 +1051,6 @@
   document.getElementById('agendarDoubleBtn')?.addEventListener('click', saveLeadAndRedirect);
   window.scrollToForm = () => document.getElementById('formSection').scrollIntoView({ behavior:'smooth' });
 
-  // Reproductor de vídeo actualizado con el nuevo enlace
   const videoThumb = document.getElementById('videoThumb');
   if(videoThumb) videoThumb.addEventListener('click', ()=>{
     if(videoThumb.querySelector('iframe')) return;
